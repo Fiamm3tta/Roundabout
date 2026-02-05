@@ -26,6 +26,8 @@ protected:
 	UPROPERTY(meta=(BindWidget))
 	URichTextBlock* RichText = nullptr;
 
+	virtual void NativeConstruct() override;
+
 private:
 	FString BuildMarkup(const TArray<FRuntimeSentence>& InputSentences) const;
 

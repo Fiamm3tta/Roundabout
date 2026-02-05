@@ -3,6 +3,7 @@
 
 #include "CaseReader.h"
 #include "Components/RichTextBlock.h"
+#include "SentenceDecorator.h"
 
 void UCaseReader::SetSentences(const TArray<FRuntimeSentence>& InputSentences)
 {
@@ -22,7 +23,7 @@ FString UCaseReader::BuildMarkup(const TArray<FRuntimeSentence>& InputSentences)
         FString Sentence = InputSentences[i].Text.ToString();
         Sentence = EscapeForRichText(Sentence);
 
-        if (Sentence == "")
+        if (Sentence.IsEmpty())
         {
             Output += TEXT("\n\n");
             continue;
@@ -32,7 +33,7 @@ FString UCaseReader::BuildMarkup(const TArray<FRuntimeSentence>& InputSentences)
         Output += FString::FromInt(i);
         Output += TEXT("\">");
         Output += Sentence;
-        Output += TEXT("</s>");
+        Output += TEXT("</>");
 
         if(i + 1 < InputSentences.Num())
         {
@@ -50,4 +51,12 @@ FString UCaseReader::EscapeForRichText(const FString& Input)
     String.ReplaceInline(TEXT("<"), TEXT("&lt;"));
     String.ReplaceInline(TEXT(">"), TEXT("&gt;"));
     return String;
+}
+
+void UCaseReader::NativeConstruct()
+{
+    Super::NativeConstruct();
+
+    if (!RichText) return;
+
 }
